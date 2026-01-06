@@ -3,7 +3,8 @@ const urlsToCache = [
   "/",
   "/index.html",
   "/manifest.json",
-  "/image11.jpg",
+  "/icon-192.png",
+  "/icon-512.png",
   "https://cdn.tailwindcss.com",
   "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&family=Inter:wght@400;600&display=swap"
 ];
