@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lira Link - Smart Currency Converter</title>
 
+    <!-- ✅ App Identity -->
+    <title>Lira Link - Smart Currency Converter</title>
+    <meta name="application-name" content="Lira Link">
+    <meta name="apple-mobile-web-app-title" content="Lira Link">
+
+    <!-- ✅ PWA Manifest (VERY IMPORTANT) -->
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- Optional favicon (not used by PWA but ok) -->
+    <link rel="icon" href="image11.jpg">
+
+    <!-- Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
@@ -20,6 +31,7 @@
         body {
             font-family:'Noto Sans Arabic','Inter',sans-serif;
             background:var(--bg); color:var(--text);
+            transition:0.3s;
         }
         .gemini-card {
             background:var(--card);
@@ -31,6 +43,7 @@
             border-radius:16px;
             padding:16px;
             width:100%;
+            font-size:1.05rem;
         }
         .tab-active {
             background:var(--accent);
@@ -40,12 +53,13 @@
 </head>
 
 <body class="min-h-screen p-4 md:p-10">
+
 <div class="max-w-5xl mx-auto">
 
 <!-- ===== HEADER ===== -->
-<header class="flex flex-col md:flex-row justify-between gap-4 mb-10">
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
     <div>
-        <h1 class="text-3xl font-bold">
+        <h1 class="text-3xl font-bold tracking-tight">
             <span class="text-blue-500">Lira</span> Link
         </h1>
         <p class="opacity-60 text-sm mt-1">
@@ -56,47 +70,47 @@
 </header>
 
 <!-- ===== NAV ===== -->
-<nav class="flex gap-2 mb-8 bg-gray-200/50 p-1.5 rounded-3xl w-fit">
-    <button onclick="switchTab('main')" id="tab-main" class="tab-active px-6 py-3 rounded-2xl">المحول</button>
-    <button onclick="switchTab('smart')" id="tab-smart" class="px-6 py-3 rounded-2xl opacity-60">الدفع الذكي</button>
-    <button onclick="switchTab('market')" id="tab-market" class="px-6 py-3 rounded-2xl opacity-60">الأسواق</button>
+<nav class="flex gap-2 mb-8 bg-gray-200/50 dark:bg-gray-800/50 p-1.5 rounded-3xl w-fit">
+    <button onclick="switchTab('main')" id="tab-main" class="tab-active px-6 py-3 rounded-2xl font-medium">المحول الرئيسي</button>
+    <button onclick="switchTab('smart')" id="tab-smart" class="px-6 py-3 rounded-2xl font-medium opacity-60">الدفع الذكي</button>
+    <button onclick="switchTab('market')" id="tab-market" class="px-6 py-3 rounded-2xl font-medium opacity-60">الأسواق العالمية</button>
 </nav>
 
 <!-- ===== MAIN ===== -->
 <main id="view-main">
-<div class="grid lg:grid-cols-3 gap-8">
-<div class="lg:col-span-2">
-<div class="gemini-card p-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-<div class="grid md:grid-cols-2 gap-6">
-    <input id="oldSyp" type="number" class="gemini-input" placeholder="الليرة القديمة" oninput="calc('old')">
-    <input id="newSyp" type="number" class="gemini-input" placeholder="الليرة الجديدة" oninput="calc('new')">
+<div class="lg:col-span-2">
+<div class="gemini-card p-8 shadow-xl">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <input type="number" id="oldSyp" class="gemini-input" placeholder="الليرة القديمة" oninput="handleMainInput('old')">
+    <input type="number" id="newSyp" class="gemini-input" placeholder="الليرة الجديدة" oninput="handleMainInput('new')">
 </div>
 
-<div class="mt-6">
-    <input id="usdRate" type="number" value="15000" class="gemini-input" oninput="calc('old')">
-    <h2 id="usdResult" class="text-3xl font-bold mt-4 text-blue-600">0 $</h2>
+<div class="mt-8">
+    <input type="number" id="usdRate" value="15000" class="gemini-input w-48 mb-4">
+    <h2 class="text-4xl font-bold text-blue-600" id="usdResult">0.00 $</h2>
 </div>
 
 </div>
 </div>
 
 <div class="gemini-card p-6">
-<h3 class="font-bold mb-4">تقسيم الفئات</h3>
-<div id="notes"></div>
+<h3 class="font-bold mb-4">تقسيم الفئات الجديدة</h3>
+<div id="notesContainer"></div>
 </div>
+
 </div>
 </main>
 
-<!-- ===== SMART ===== -->
+<!-- ===== SMART PAY ===== -->
 <section id="view-smart" class="hidden">
-<div class="gemini-card p-8 max-w-3xl mx-auto">
-<input id="payPrice" type="number" class="gemini-input mb-4" placeholder="سعر الغرض" oninput="smartPay()">
-<select id="payType" class="gemini-input mb-4" onchange="smartPay()">
-    <option value="new">جديد</option>
-    <option value="old">قديم</option>
-</select>
-<h3 id="smartResult" class="font-bold text-blue-600"></h3>
+<div class="max-w-3xl mx-auto">
+<div class="gemini-card p-8">
+    <input id="payPrice" type="number" class="gemini-input mb-4" placeholder="سعر الغرض" oninput="runSmartPay()">
+    <h3 id="smart-suggestion" class="font-bold text-blue-600"></h3>
+</div>
 </div>
 </section>
 
@@ -104,43 +118,44 @@
 <section id="view-market" class="hidden">
 <div class="gemini-card p-8">
 <h3 class="font-bold mb-6">أسعار الأسواق (تحديث كل 5 ثواني)</h3>
-<div id="crypto"></div>
-<div id="forex" class="mt-6"></div>
+<div id="crypto-list" class="mb-6"></div>
+<div id="forex-list"></div>
 </div>
 </section>
 
 <!-- ===== FOOTER ===== -->
-<footer class="mt-16 text-center opacity-50">
-<p>Lira Link © 2026</p>
-<p>Developed by MR.Q — Anas Shameea</p>
+<footer class="mt-16 text-center opacity-50 space-y-2">
+    <p class="font-medium">Lira Link © 2026</p>
+    <p class="text-xs">Developed by MR.Q | Anas Shameea</p>
 </footer>
 
 </div>
 
 <script>
-function switchTab(t){
-['main','smart','market'].forEach(x=>{
-document.getElementById('view-'+x).classList.add('hidden');
-document.getElementById('tab-'+x).classList.remove('tab-active');
+function switchTab(tab){
+['main','smart','market'].forEach(t=>{
+document.getElementById('view-'+t).classList.add('hidden');
+document.getElementById('tab-'+t).classList.remove('tab-active');
 });
-document.getElementById('view-'+t).classList.remove('hidden');
-document.getElementById('tab-'+t).classList.add('tab-active');
+document.getElementById('view-'+tab).classList.remove('hidden');
+document.getElementById('tab-'+tab).classList.add('tab-active');
 }
 
-function calc(src){
+function handleMainInput(src){
 let old=document.getElementById('oldSyp');
 let nw=document.getElementById('newSyp');
+let rate=document.getElementById('usdRate').value||1;
 if(src==='old') nw.value=(old.value/100).toFixed(2);
 else old.value=(nw.value*100).toFixed(0);
-document.getElementById('usdResult').innerText=(old.value/document.getElementById('usdRate').value).toFixed(2)+' $';
+document.getElementById('usdResult').innerText=(old.value/rate).toFixed(2)+' $';
 }
 
-async function loadMarket(){
+async function fetchMarketData(){
 let c=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=5').then(r=>r.json());
-document.getElementById('crypto').innerHTML=c.map(x=>`${x.symbol.toUpperCase()}: ${x.current_price}$`).join('<br>');
+document.getElementById('crypto-list').innerHTML=c.map(x=>`${x.symbol.toUpperCase()} : ${x.current_price} $`).join('<br>');
 }
-setInterval(loadMarket,5000);
-loadMarket();
+setInterval(fetchMarketData,5000);
+fetchMarketData();
 </script>
 
 </body>
