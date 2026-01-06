@@ -1,14 +1,13 @@
 {
-  "id": "lira-link",
   "name": "Lira Link",
-  "short_name": "Lira Link",
-  "description": "Smart Currency Converter for Syria",
-  "start_url": "./index.html",
-  "scope": "./",
+  "short_name": "LiraLink",
+  "description": "محول العملات الذكي من MR.Q | تحويل سريع ودقيق لليرة السورية القديمة والجديدة",
+  "start_url": "index.html",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#f8fafd",
   "theme_color": "#1a73e8",
+  "id": "/index.html",
   "icons": [
     {
       "src": "icon-192.png",
