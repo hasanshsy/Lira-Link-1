@@ -1,5 +1,5 @@
 {
-  "id": "lira-link-app",
+  "id": "lira-link",
   "name": "Lira Link",
   "short_name": "Lira Link",
   "description": "Smart Currency Converter for Syria",
@@ -9,7 +9,6 @@
   "orientation": "portrait",
   "background_color": "#f8fafd",
   "theme_color": "#1a73e8",
-
   "icons": [
     {
       "src": "icon-192.png",
@@ -22,14 +21,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
-    }
-  ],
-
-  "screenshots": [
-    {
-      "src": "screenshot1.png",
-      "sizes": "540x720",
-      "type": "image/png"
     }
   ]
 }
